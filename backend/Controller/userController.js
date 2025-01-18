@@ -1,3 +1,4 @@
+import { encryptedpassword } from "../helper/userHelper.js";
 import usermodel from "../Models/model.js";
 
 const registerController = async (req, res) => {
@@ -13,7 +14,8 @@ const registerController = async (req, res) => {
         if(isExist){
             return res.status(400).send({ success: false, message: "Email already exist" });
         }
-        const newUser = await usermodel.create({ name, email, password });
+        const hashedPassword = await encryptedpassword(password);
+        const newUser = await usermodel.create({ name, email, password : hashedPassword});
         res.status(200).send({ success: true, message: "User registered successfully",newUser });
     }
 
