@@ -21,7 +21,7 @@ import userRoutes from "./Routes/Route.js";
 
 app.use(express.json());
 app.use(cors({origin: "http://localhost:5173",credentials: true}));
-
+// ctrl + click on userroutes to go to userroutes directily
 app.use('/api/v1/users',userRoutes);
 
 const PORT= process.env.PORT || 5000;
