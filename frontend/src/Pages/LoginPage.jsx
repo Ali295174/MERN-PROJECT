@@ -1,16 +1,16 @@
-// Import necessary libraries and components
-import { Link } from "react-router-dom"; // For navigation (not currently used in this code).
-import { cn } from "@/lib/utils"; // Utility function for conditional class names.
-import { Button } from "@/components/ui/button"; // Button component.
+
+import { Link } from "react-router-dom"; 
+import { cn } from "@/lib/utils"; 
+import { Button } from "@/components/ui/button"; 
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"; // Card components for structured design.
-import { Input } from "@/components/ui/input"; // Input field component.
-import { Label } from "@/components/ui/label"; // Label component for inputs.
+} from "@/components/ui/card"; 
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label"; 
 import { useState } from "react"; // React hook to manage state.
 import axios from "axios"; // For sending HTTP requests.
 import { toast } from "react-toastify"; // For displaying success or error messages.
@@ -31,20 +31,20 @@ export default function LoginPage({ className, ...props }) {
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the page from refreshing when the form is submitted.
     console.log(inputvalues);
-    // Send a POST request to the backend with input values
     axios
       .post("http://localhost:8080/api/v1/users/login", inputvalues, {
+         withCredentials : true, //woth this line we send cookies to vackend from frontend which allaow backend to set token in 
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log(response); // Log the success response.
-        toast.success(response?.data?.message, { autoClose: 2000 }); // Show a success toast message.
-        setInputvalues({}); // Reset input fields after successful registration.
+        console.log(response); 
+        toast.success(response?.data?.message, { autoClose: 2000 }); 
+        setInputvalues({}); 
       })
       .catch((error) => {
-        console.log(error); // Log the error.
-        toast.error(error?.response?.data?.message, { autoClose: 2000 }); // Show an error toast message.
-        setInputvalues({}); // Reset input fields after an error.
+        console.log(error); 
+        toast.error(error?.response?.data?.message, { autoClose: 2000 }); 
+        setInputvalues({});
       });
   };
 
