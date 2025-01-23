@@ -1,19 +1,18 @@
-// Import necessary libraries and components
-import { Link } from "react-router-dom"; // For navigation (not currently used in this code).
-import { cn } from "@/lib/utils"; // Utility function for conditional class names.
-import { Button } from "@/components/ui/button"; // Button component.
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"; // Card components for structured design.
-import { Input } from "@/components/ui/input"; // Input field component.
-import { Label } from "@/components/ui/label"; // Label component for inputs.
-import { useState } from "react"; // React hook to manage state.
-import axios from "axios"; // For sending HTTP requests.
-import { toast } from "react-toastify"; // For displaying success or error messages.
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 // Main component for the Register page
 export default function RegisterPage({ className, ...props }) {
@@ -24,26 +23,24 @@ export default function RegisterPage({ className, ...props }) {
     const name = event.target.name; // Get the 'name' attribute of the input field.
     const value = event.target.value; // Get the value entered by the user.
     setInputvalues((values) => ({ ...values, [name]: value }));
-     // Update the state dynamically.By using square brackets ([name]), JavaScript dynamically assigns the value of the name variable as the key in the object.
+    // Update the state dynamically.By using square brackets ([name]), JavaScript dynamically assigns the value of the name variable as the key in the object.
   };
 
-  // Function to handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the page from refreshing when the form is submitted.
+    e.preventDefault();
 
-    // Send a POST request to the backend with input values
     axios
       .post("http://localhost:8080/api/v1/users/register", inputvalues, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log(response); // Log the success response.
-        toast.success(response?.data?.message, { autoClose: 2000 }); // Show a success toast message.
-        setInputvalues({}); // Reset input fields after successful registration.
+        console.log(response);
+        toast.success(response?.data?.message, { autoClose: 2000 });
+        setInputvalues({});
       })
       .catch((error) => {
-        console.log(error); // Log the error.
-        toast.error(error?.response?.data?.message, { autoClose: 2000 }); // Show an error toast message.
+        console.log(error);
+        toast.error(error?.response?.data?.message, { autoClose: 2000 });
         setInputvalues({}); // Reset input fields after an error.
       });
   };
@@ -109,9 +106,13 @@ export default function RegisterPage({ className, ...props }) {
                 </Button>
               </div>
               <div className="flex items-center justify-center">
-              <p>Already have an account?
-              <Link to="/login" className="text-blue-700 underline"> Sign in</Link>
-              </p>
+                <p>
+                  Already have an account?
+                  <Link to="/login" className="text-blue-700 underline">
+                    {" "}
+                    Sign in
+                  </Link>
+                </p>
               </div>
             </form>
           </CardContent>

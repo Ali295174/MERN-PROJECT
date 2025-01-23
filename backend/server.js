@@ -4,6 +4,7 @@ import ConnectDb from './config/db.js';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from "cors";
+import cookieparser from "cookie-parser";
 // We write dotenv.config() to load the environment variables from the .env file into process.env. This allows the app to access those variables (like MONGO_URL) anywhere in the code.
 
 dotenv.config();
@@ -21,6 +22,8 @@ import userRoutes from "./Routes/Route.js";
 
 app.use(express.json());
 app.use(cors({origin: "http://localhost:5173",credentials: true}));
+// using cookie parser
+app.use(cookieparser());
 // ctrl + click on userroutes to go to userroutes directily
 app.use('/api/v1/users',userRoutes);
 
