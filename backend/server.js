@@ -16,12 +16,13 @@ const app = express();
 // Middleware
 
 app.use(morgan("dev"));
+app.use(cors({origin: "http://localhost:5174",credentials: true}));
 
 // Routes 
 import userRoutes from "./Routes/Route.js";
 
 app.use(express.json());
-app.use(cors({origin: "http://localhost:5173",credentials: true}));
+
 // using cookie parser
 app.use(cookieparser());
 // ctrl + click on userroutes to go to userroutes directily
