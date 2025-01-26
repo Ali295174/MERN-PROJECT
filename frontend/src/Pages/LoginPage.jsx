@@ -12,12 +12,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"; 
 import { useState } from "react"; // React hook to manage state.
-import axios from "axios"; // For sending HTTP requests.
+
 import { toast } from "react-toastify"; // For displaying success or error messages.
+import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { login } from "../store/features/auth/authslice.js";
+
 
 // Main component for the Register page
 export default function LoginPage({ className, ...props }) {
   const [inputvalues, setInputvalues] = useState({}); // State to store input field values.
+  const dispatch = useDispatch();
 
   // Function to handle changes in input fields
   const handlechange = (event) => {
@@ -30,22 +35,18 @@ export default function LoginPage({ className, ...props }) {
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent the page from refreshing when the form is submitted.
-    console.log(inputvalues);
-    axios
-      .post("http://localhost:8080/api/v1/users/login", inputvalues, {
-         withCredentials : true, //woth this line we send cookies to vackend from frontend which allaow backend to set token in 
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        console.log(response); 
-        toast.success(response?.data?.message, { autoClose: 2000 }); 
-        setInputvalues({}); 
-      })
-      .catch((error) => {
-        console.log(error); 
-        toast.error(error?.response?.data?.message, { autoClose: 2000 }); 
-        setInputvalues({});
-      });
+   dispatch(login(inputvalues))
+   .unwrap()
+   .then((response)=>{
+    if(response?.success==true){
+      toast.success(response?.message,{autoClose:2000});
+    }else{
+      toast.error(response?.message,{autoClose:2000})
+    }
+   })
+   .catch((error)=>{
+   console.log(error);
+   })
   };
 
   return (
