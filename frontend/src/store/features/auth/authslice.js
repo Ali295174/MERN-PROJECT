@@ -1,5 +1,6 @@
  import { createSlice,createAsyncThunk } from '@reduxjs/toolkit'
- import authService from "./authService.js";
+ import authService from "./authService";
+
 
 
 //  this login getting data from login and store it in inputvalues and send the data to auth service. 
@@ -9,15 +10,17 @@
     } catch (error) {
         return thunkAPI.rejectWithValue(error);
     }
- })
+ });
+
+ const getUserDatafromLocalstorage = window.localStorage.getItem("user") ? JSON.parse(window.localStorage.getItem("user")) : null;
 
  
 
 export const authslice = createSlice({
   name: 'auth',
   initialState:{
-    user : null,
-    status: "idle",
+    user : getUserDatafromLocalstorage,
+    status: "ideal",
     error : null
   },
 
@@ -32,12 +35,12 @@ export const authslice = createSlice({
     })
     // action.payload is where our data is stored
     situation.addCase(login.fulfilled,(state,action)=>{
-        state.status="successs";
+        state.status="success";
         state.user= action.payload;
     })
     situation.addCase(login.rejected,(state,action)=>{
         state.status="failed";
-        state.user= action.payload;
+        state.error= action.payload;
     })
   }
 })
