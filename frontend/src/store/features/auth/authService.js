@@ -10,7 +10,8 @@ const loginUser=(inputvalues)=>{
     })
     .then((response) => {
         window.localStorage.setItem("user",JSON.stringify(response.data));
-        return response.data
+        return response.data;
+        
     })
     .catch((error) => {
       return error.response.data

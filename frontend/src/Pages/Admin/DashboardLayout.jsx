@@ -10,9 +10,9 @@ import {
   Search,
   ShoppingCart,
   Users,
-} from "lucide-react"
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 // import {
 //   Card,
 //   CardContent,
@@ -27,63 +27,80 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import axios from "axios";
 // import { logout } from "@/store/features/auth/authSlice";
-
-
 
 export default function DashboardLayout() {
   const nevigate = useNavigate();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-//   const user = useSelector((state)=> state.authReducer.user?.user)
-//   const [ message , setMessage ] = useState(null);
-//   useEffect(()=>{
-//     if(!user){
-//       setMessage("You are not logged in. Redirecting to Login Page")
-//       setTimeout(()=>{
-//         navigate("/login")
-//       } , 3000)
-//     }else if(user.role !== 1){
-//       console.log(user.role);
-//       setMessage("You are unauthorized. Redirecting to Home page")
-//       setTimeout(()=>{
-//         navigate("/")
-//       } , 3000)
-//     }
-//   } , [user , navigate])
+  //   const user = useSelector((state)=> state.authReducer.user?.user)
+  //   const [ message , setMessage ] = useState(null);
+  //   useEffect(()=>{
+  //     if(!user){
+  //       setMessage("You are not logged in. Redirecting to Login Page")
+  //       setTimeout(()=>{
+  //         navigate("/login")
+  //       } , 3000)
+  //     }else if(user.role !== 1){
+  //       console.log(user.role);
+  //       setMessage("You are unauthorized. Redirecting to Home page")
+  //       setTimeout(()=>{
+  //         navigate("/")
+  //       } , 3000)
+  //     }
+  //   } , [user , navigate])
 
-//   const handleLogout = ()=>{
-//     dispatch(logout())
-//       .unwrap()
-//       .then((respons) => {
-//         if(respons?.success == true){
-//           console.log(Response)
-//           toast.success(respons?.message, {autoClose: 2000})
-//           setTimeout(() => {
-//             nevigate("/")
-//           }, 2000);
-//         }else{
-//           toast.error(respons?.message , {autoClose: 2000})
-//         }
-//       })
-//       .catch((error) => {
-//         toast.error(error , {autoClose: 2000})
-//       });
-//   }
+  //   const handleLogout = ()=>{
+  //     dispatch(logout())
+  //       .unwrap()
+  //       .then((respons) => {
+  //         if(respons?.success == true){
+  //           console.log(Response)
+  //           toast.success(respons?.message, {autoClose: 2000})
+  //           setTimeout(() => {
+  //             nevigate("/")
+  //           }, 2000);
+  //         }else{
+  //           toast.error(respons?.message , {autoClose: 2000})
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         toast.error(error , {autoClose: 2000})
+  //       });
+  //   }
 
-//   if(message){
-//     return(
-//       <div className="h-screen flex justify-center items-center">
-//       <p>{message}</p>
-//     </div>
-//     ) 
-//   }
+  //   if(message){
+  //     return(
+  //       <div className="h-screen flex justify-center items-center">
+  //       <p>{message}</p>
+  //     </div>
+  //     )
+  //   }
+  const handlelogout = () => {
+    axios
+      .get("http://localhost:8080/api/v1/users/logout", {
+        withCredentials: true, //with this line we send cookies to backend from frontend which allaow backend to set token in
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        window.localStorage.removeItem("user");
+        toast.success(response?.data?.message, { autoClose: 2000 });
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      })
+      .catch((error) => {
+        window.localStorage.removeItem("user");
+        toast.success(error?.response?.data?.message);
+      });
+  };
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -93,7 +110,7 @@ export default function DashboardLayout() {
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
-              <span className="">Acme Inc</span>
+              <span className="">Shopwave</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -142,7 +159,6 @@ export default function DashboardLayout() {
               </Link>
             </nav>
           </div>
-         
         </div>
       </div>
       {/*------------------------------------------------------------------------ Mobile Menu */}
@@ -193,12 +209,12 @@ export default function DashboardLayout() {
                   Products
                 </Link>
                 <Link
-                to="/admin/categories"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Layers className="h-4 w-4" />
-                Categories{" "}
-              </Link>
+                  to="/admin/categories"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                >
+                  <Layers className="h-4 w-4" />
+                  Categories{" "}
+                </Link>
                 <Link
                   to="/admin/users"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
@@ -206,9 +222,7 @@ export default function DashboardLayout() {
                   <Users className="h-5 w-5" />
                   Users
                 </Link>
-              
               </nav>
-             
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
@@ -236,15 +250,17 @@ export default function DashboardLayout() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <button className="px-3 py-2" >Logout</button>
+              <button className="px-3 py-2" onClick={handlelogout}>
+                Logout
+              </button>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
         {/*---------------------------------------------------------------- right side */}
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-         <Outlet />
+          <Outlet />
         </main>
       </div>
     </div>
-  )
+  );
 }

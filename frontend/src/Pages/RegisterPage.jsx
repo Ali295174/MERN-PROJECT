@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,8 +15,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 // Main component for the Register page
+
+
 export default function RegisterPage({ className, ...props }) {
   const [inputvalues, setInputvalues] = useState({}); // State to store input field values.
+  const navigate = useNavigate();
 
   // Function to handle changes in input fields
   const handlechange = (event) => {
@@ -37,6 +40,10 @@ export default function RegisterPage({ className, ...props }) {
         console.log(response);
         toast.success(response?.data?.message, { autoClose: 2000 });
         setInputvalues({});
+
+        setTimeout(()=>{
+          navigate("/")
+        },2000)
       })
       .catch((error) => {
         console.log(error);
