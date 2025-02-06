@@ -11,10 +11,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react"; // React hook to manage state.
-
 import { toast } from "react-toastify"; // For displaying success or error messages.
 import { ToastContainer } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "../store/features/auth/authslice.js";
 
@@ -23,6 +22,8 @@ export default function LoginPage({ className, ...props }) {
   const [inputvalues, setInputvalues] = useState({}); // State to store input field values.
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const status = useSelector((state) => state?.auth?.status);
+  
 
   // Function to handle changes in input fields
   const handlechange = (event) => {
@@ -39,16 +40,17 @@ export default function LoginPage({ className, ...props }) {
       .unwrap()
       .then((response) => {
         if (response?.success == true) {
-          toast.success(response?.message, { autoClose: 2000 });
+          toast.success(response?.message, { autoClose: 3000 });
           setTimeout(() => {
             navigate("/");
           }, 2000);
         } else {
-          toast.error(response?.message, { autoClose: 2000 });
+          toast.error(response?.message, { autoClose: 3000 });
         }
       })
       .catch((error) => {
         console.log(error);
+        toast.error(error, { autoClose: 2000 });
       });
   };
 
@@ -94,8 +96,8 @@ export default function LoginPage({ className, ...props }) {
                 </div>
 
                 {/* Submit Button */}
-                <Button type="submit" className="w-full">
-                  Login Account
+                <Button  type="submit" className="w-full " disabled = {status=="loading" ? true : false}>
+                  {status == "loading" ?	"Signing in.....": "Sign in"}
                 </Button>
               </div>
               <div className="flex items-center justify-center pt-4">

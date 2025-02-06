@@ -33,73 +33,48 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import axios from "axios";
+
+import { logout } from "@/store/features/auth/authslice";
 // import { logout } from "@/store/features/auth/authSlice";
 
 export default function DashboardLayout() {
-  const nevigate = useNavigate();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  //   const user = useSelector((state)=> state.authReducer.user?.user)
-  //   const [ message , setMessage ] = useState(null);
-  //   useEffect(()=>{
-  //     if(!user){
-  //       setMessage("You are not logged in. Redirecting to Login Page")
-  //       setTimeout(()=>{
-  //         navigate("/login")
-  //       } , 3000)
-  //     }else if(user.role !== 1){
-  //       console.log(user.role);
-  //       setMessage("You are unauthorized. Redirecting to Home page")
-  //       setTimeout(()=>{
-  //         navigate("/")
-  //       } , 3000)
-  //     }
-  //   } , [user , navigate])
+     const dispatch = useDispatch();
 
-  //   const handleLogout = ()=>{
-  //     dispatch(logout())
-  //       .unwrap()
-  //       .then((respons) => {
-  //         if(respons?.success == true){
-  //           console.log(Response)
-  //           toast.success(respons?.message, {autoClose: 2000})
-  //           setTimeout(() => {
-  //             nevigate("/")
-  //           }, 2000);
-  //         }else{
-  //           toast.error(respons?.message , {autoClose: 2000})
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         toast.error(error , {autoClose: 2000})
-  //       });
-  //   }
 
-  //   if(message){
-  //     return(
-  //       <div className="h-screen flex justify-center items-center">
-  //       <p>{message}</p>
-  //     </div>
-  //     )
-  //   }
+  const user = useSelector((state)=>state.auth.user?.user);
+  console.log(user);
+
+  useEffect(()=>{
+    if(!user){
+      toast.error("You need to login first!");
+      setTimeout(()=>{
+        navigate("/login");
+      }, 1000);
+    } else if (user.role !== 1){
+        toast.error("You are not authorized to access this area!");
+        navigate("/login");
+  
+    }
+  })
+
   const handlelogout = () => {
-    axios
-      .get("http://localhost:8080/api/v1/users/logout", {
-        withCredentials: true, //with this line we send cookies to backend from frontend which allaow backend to set token in
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((response) => {
-        window.localStorage.removeItem("user");
-        toast.success(response?.data?.message, { autoClose: 2000 });
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      })
-      .catch((error) => {
-        window.localStorage.removeItem("user");
-        toast.success(error?.response?.data?.message);
-      });
+    dispatch(logout())
+          .unwrap()
+          .then((response) => {
+            if (response?.success == true) {
+              toast.success(response?.message, { autoClose: 2000 });
+              setTimeout(() => {
+                navigate("/");
+              }, 2000);
+            } else {
+              toast.error(response?.message, { autoClose: 2000 });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            toast.error(error, { autoClose: 2000 });
+          });
   };
 
   return (

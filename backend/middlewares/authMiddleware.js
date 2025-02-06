@@ -24,23 +24,23 @@ const isAuthorised = async (req, res, next) => {
 // ------------------------------------------Admin authentication method
 const adminauthentication = async (req, res, next) => {
   try {
-   
     const user = req.user;
-    if (!user || user.role  !== 1) {
-      return res
-        .status(403)
-        .send({
-          success: false,
-          message: "You are not authorized to access this area!"
-        });
+    if (!user || user.role !== 1) {
+      return res.status(403).send({
+        success: false,
+        message: "You are not authorized to access this area!",
+      });
     }
     next();
   } catch (error) {
     console.log(error);
     res
       .status(401)
-      .send({ success: false, message: `Authorization error: ${error.message}` });
+      .send({
+        success: false,
+        message: `Authorization error: ${error.message}`,
+      });
   }
 };
 
-export { isAuthorised,adminauthentication};
+export { isAuthorised, adminauthentication };

@@ -11,8 +11,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { register } from "@/store/features/auth/authslice";
+import { useDispatch } from "react-redux";
+  
+
 
 // Main component for the Register page
 
@@ -20,6 +23,8 @@ import { toast } from "react-toastify";
 export default function RegisterPage({ className, ...props }) {
   const [inputvalues, setInputvalues] = useState({}); // State to store input field values.
   const navigate = useNavigate();
+  const  dispatch = useDispatch();
+  
 
   // Function to handle changes in input fields
   const handlechange = (event) => {
@@ -32,23 +37,21 @@ export default function RegisterPage({ className, ...props }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:8080/api/v1/users/register", inputvalues, {
-        headers: { "Content-Type": "application/json" },
-      })
+    dispatch(register(inputvalues))
+      .unwrap()
       .then((response) => {
-        console.log(response);
-        toast.success(response?.data?.message, { autoClose: 2000 });
-        setInputvalues({});
-
-        setTimeout(()=>{
-          navigate("/")
-        },2000)
+        if (response?.success == true) {
+          toast.success(response?.message, { autoClose: 2000 });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          toast.error(response?.message, { autoClose: 2000 });
+        }
       })
       .catch((error) => {
         console.log(error);
-        toast.error(error?.response?.data?.message, { autoClose: 2000 });
-        setInputvalues({}); // Reset input fields after an error.
+        toast.error(error, { autoClose: 2000 });
       });
   };
 

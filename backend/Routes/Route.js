@@ -8,6 +8,7 @@ import {
 import {adminauthentication, isAuthorised} from "../middlewares/authMiddleware.js";
 
 const Router = express.Router();
+
 // http://localhost:8080/api/v1/users/register
 Router.post("/register", registerController);
 
