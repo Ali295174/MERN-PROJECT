@@ -2,6 +2,7 @@ import { encryptedpassword, comparingpassword } from "../helper/userHelper.js";
 import usermodel from "../Models/model.js";
 import jwt from "jsonwebtoken";
 
+//----------------------------------------------register controller
 const registerController = async (req, res) => {
   const { name, email, password } = req.body;
   console.log(req.body);
@@ -23,13 +24,11 @@ const registerController = async (req, res) => {
       email,
       password: hashedPassword,
     });
-    res
-      .status(200)
-      .send({
-        success: true,
-        message: "User registered successfully",
-        newUser,
-      });
+    res.status(200).send({
+      success: true,
+      message: "User registered successfully",
+      newUser,
+    });
   } catch (error) {
     console.log(error);
     res
@@ -37,6 +36,8 @@ const registerController = async (req, res) => {
       .send({ success: false, message: `User registration error: ${error}` });
   }
 };
+
+//----------------------------------------------login controller
 const loginController = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -84,4 +85,58 @@ const loginController = async (req, res) => {
   }
 };
 
-export { registerController, loginController };
+//----------------------------------------------logout controller
+const logoutController = async (req, res) => {
+  try {
+    // Clear the cookie by setting it to an empty string
+    return res
+      .cookie("token", "", {
+        httpOnly: true,
+        secure: true,
+        expires: new Date(0),
+      }) // Set an expired date to ensure the cookie is invalidated
+      .status(200)
+      .send({
+        success: true,
+        message: "User logged out successfully",
+      });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ success: false, message: `Logout error: ${error.message}` });
+  }
+};
+
+//-----------------------------------------------allusersController
+const allusersController = async (req, res) => {
+  try {
+    // check if email already present
+    const users = await usermodel.find({}).select("-password");
+    if (!users) {
+      return res.status(400).send({ success: false, message: "No user found" });
+    }
+
+    return res.status(200).send({
+      Total: (`${users.length} users` ),
+      success: true,
+      users,
+      
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(401)
+      .send({
+        success: false,
+        message: `alllUsersController  error: ${error}`,
+      });
+  }
+};
+
+export {
+  registerController,
+  loginController,
+  logoutController,
+  allusersController,
+};
