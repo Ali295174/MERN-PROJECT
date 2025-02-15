@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-//---------------------------------------------------registerUser Services
+//--------------------------------------------------------------registerUser Services
 const logoutUser = async () => {
   try {
     const axiosResponce = await axios.get(

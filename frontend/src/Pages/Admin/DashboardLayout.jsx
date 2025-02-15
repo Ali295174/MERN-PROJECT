@@ -43,7 +43,7 @@ export default function DashboardLayout() {
 
 
   const user = useSelector((state)=>state.auth.user?.user);
-  console.log(user);
+
 
   useEffect(()=>{
     if(!user){
@@ -72,7 +72,7 @@ export default function DashboardLayout() {
             }
           })
           .catch((error) => {
-            console.log(error);
+       
             toast.error(error, { autoClose: 2000 });
           });
   };
