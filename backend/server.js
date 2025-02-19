@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
 import cookieparser from "cookie-parser";
-import categoriesRouter from "./Routes/CategoriedRoutes.js";
+
 
 
 
@@ -24,13 +24,21 @@ app.use(cookieparser());
 
 
 
-import userRoutes from "./Routes/Route.js";
+
+
 // --------------------------------------------------------------------------UserRoutes
+import userRoutes from "./Routes/Route.js";
 app.use("/api/v1/users", userRoutes);
 
 
 // ----------------------------------------------------------------------CategoriesRoutes
+import categoriesRouter from "./Routes/CategoriedRoutes.js";
 app.use("/api/v1/categories", categoriesRouter);
+
+
+// ----------------------------------------------------------------------ProductRoutes
+import ProductsRoutes from "./Routes/ProductsRoutes.js";
+app.use("/api/v1/products", ProductsRoutes);
 
 
 

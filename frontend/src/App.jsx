@@ -14,6 +14,7 @@ import Shop from "./Pages/Shop";
 import About from "./Pages/About";
 import Categories from "./Pages/Admin/Categories";
 import UpdateCategory from "./Pages/Admin/UpdateCategory";
+import AddProducts from "./Pages/Admin/AddProducts";
 // import Categories from "./Pages/Admin/Categories";
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="Users" element={<Users />} />
             <Route path="Products" element={<Products />} />
+            <Route path="Products/add" element={<AddProducts />} />
             <Route path="categories" element={<Categories />} />
             <Route path="categories/update/:slug" element={<UpdateCategory />} />
             <Route path="Orders" element={<Orders />} />
