@@ -50,7 +50,9 @@ const getAllCat = async () => {
   }
  
 };
-//-----------------------------------------------------get all services
+
+
+//-----------------------------------------------------get single services
 
 const getSingleCat = async (slug) => {
   try {

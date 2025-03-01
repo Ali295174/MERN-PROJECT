@@ -15,6 +15,8 @@ import About from "./Pages/About";
 import Categories from "./Pages/Admin/Categories";
 import UpdateCategory from "./Pages/Admin/UpdateCategory";
 import AddProducts from "./Pages/Admin/AddProducts";
+import UpdateProducts from "./Pages/Admin/UpdateProducts";
+import ProductDetails from "./Pages/ProductDetails";
 // import Categories from "./Pages/Admin/Categories";
 
 function App() {
@@ -33,6 +35,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/shop" element={<Shop/>} />
+          <Route path="/product/:productId" element={<ProductDetails/>} />
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -41,10 +44,11 @@ function App() {
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="Users" element={<Users />} />
-            <Route path="Products" element={<Products />} />
-            <Route path="Products/add" element={<AddProducts />} />
+            <Route path="products" element={<Products />} />
+            <Route path="products/add" element={<AddProducts />} />
             <Route path="categories" element={<Categories />} />
             <Route path="categories/update/:slug" element={<UpdateCategory />} />
+            <Route path="products/update/:productId" element={<UpdateProducts />} />
             <Route path="Orders" element={<Orders />} />
           </Route>
 
