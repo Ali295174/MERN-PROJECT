@@ -9,6 +9,9 @@ import fs from "fs";
     api_secret: 'TZKrNEeJON25V55nFd9FnZCcEGU' // Click 'View API Keys' above to copy your API secret
 });
 
+// ----------------------------------------------------------------------for uploading image on cloudinary
+
+
 const ImageuploadonCloudinary=async(filepath,foldername)=>{
     // for uploading image on cloudinary
     try {
@@ -39,4 +42,18 @@ const ImageuploadonCloudinary=async(filepath,foldername)=>{
 
 }
 
-export {ImageuploadonCloudinary};
+// -----------------------------------------------------------------------for deleting image from cloudinary
+
+const deleteImagefromCloudinary=async(public_id)=>{
+    try {
+        
+      const result=  await cloudinary.uploader.destroy(public_id);
+        return result;
+    } catch (error) {
+        throw new Error(error.message || 'Cloudinary delete failed');
+        
+    }
+
+}
+
+export {ImageuploadonCloudinary,deleteImagefromCloudinary};

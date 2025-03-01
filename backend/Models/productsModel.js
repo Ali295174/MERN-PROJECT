@@ -13,7 +13,7 @@ const productsSchema = new mongoose.Schema(
     },
     category: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+      ref: "Category", // This references the User model
       required: true,
     },
     price: {
@@ -22,7 +22,7 @@ const productsSchema = new mongoose.Schema(
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", // This references the User model
       required: true,
     },
     picture: {

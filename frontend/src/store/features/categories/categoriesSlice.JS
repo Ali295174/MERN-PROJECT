@@ -13,6 +13,8 @@ export const getAllCategory = createAsyncThunk(
     }
   }
 );
+
+
 //-----------------------------------------------------getSingleCategory
 export const getSingleCategory = createAsyncThunk(
   "categories/getSingleCategory",
