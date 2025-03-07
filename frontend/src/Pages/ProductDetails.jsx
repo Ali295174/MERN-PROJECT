@@ -4,6 +4,7 @@ import { getSingleProduct } from "@/store/features/Products/productsSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function ProductDetails() {
   const fetchedProducts = useSelector((state) => state.storeProducts.products);
@@ -38,8 +39,8 @@ function ProductDetails() {
       title,
       price,
       secureurl : pictureurl,
-      quantity : value
-    }));
+      quantity : value,
+    }),   toast.success("Product added to cart"));
 
   };
 
